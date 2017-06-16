@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<head>
+<title>Grocery Reciept Calculator</title>
+<style>
+    *{margin:0; padding:0; font-family: Helvetica;}
+    body{
+        
+    }
+    .wrapper{
+        width:90%;
+        margin:auto;
+        padding:1%;
+    }
+    .displayResults{
+        margin:2%;
+        padding:2%;
+        border-bottom: 1px solid #ccc;
+        
+    }
+    .items{
+        width:29%;
+        margin-left:1%;
+        margin-right:2%;
+        display:inline-block;
+        border:1px solid #ccc;
+        vertical-align: top;
+    }
+    .eachItem{
+        width:90%;
+        margin:2%;
+        padding:1%;
+        border:1px solid #ccc;
+    }
+    .eachTotal{
+        width:90%;
+        height:5%;
+        margin:2%;
+        padding:1%;
+        border-bottom:1px solid #ccc;
+        text-align: right;
+    }
+    
+    #amountOwe{
+        width:50%;
+        margin:2%;
+        padding:1%;
+        float:right;
+        border:1px solid #ccc;
+        text-align: right;
+    }
+    p{
+        margin:1%;
+    }
+    p.total{
+        text-align: right;
+    }
+    input[type=text]{
+        padding:2%;
+        margin:1%;
+        font-size: 1em;
+    }
+    input#amount{
+        margin: 0 auto;
+        width: 30%;
+        display: block;
+    }
+</style>
+
+</head>
+
+
+
+<body>
+<div class="wrapper">
+    <!--<label>Paid by: </label>
+    <input type="text" name="person1" placeholder="This is paid by..." value="So" id="paidBy">
+    <label>Splitting with: </label>
+    <input type="text" name="person2" placeholder="Split with..." value="Ayumi" id="splittingWith"></br>-->
+    <p style="text-align:center;">Enter an item amount below, then use arrow keys (<-, |, ->) to assign the item</p></br>
+    
+    <input type="text" name="amount" id="amount" placeholder="Type in the amount of an item" onkeydown="assignTo(event)">
+    
+    
+    
+    <div class="displayResults">
+        <div class="items">
+            <p id="person1">Person1</p><button type="button" name="person1" id="leftArrow"><-</button>
+            <div class="eachItem" id="amount1Field"></div>
+            <p>Total of the items that So bought: </p>
+            <div class="eachTotal" id="total1"></div>
+        </div>
+
+        <div class="items">
+            <p id="half">Split between two</p><button type="button" name="half" id="downArrow">|</button>        
+            <div class="eachItem" id="amount2Field"></div>
+            <p>Total of the items split between you two: </p>
+            <div class="eachTotal" id="total2"></div>
+
+
+        </div>
+
+        <div class="items">
+            <p id="person2">Person2</p><button type="button" name="person2" id="rightArrow">-></button> 
+            <div class="eachItem" id="amount3Field"></div>
+            <p>Total that of your items: </p>
+            <div class="eachTotal" id="total3"></div>
+        </div>
+    </div>
+    <p class="total">You owe (split items + your items): </p>
+        <div id="amountOwe">Total</div>
+</div>
+    
+    
+    
+    <script> 
+    var amount1 = [];
+    var amount2 = [];
+    var amount3 = [];
+    function assignTo(event){
+        var x = event.which || event.keyCode;
+        var amount = document.getElementById("amount").value;
+        if(x === 37) {                            
+            if(amount == '')
+            {
+                return;
+            }else 
+            {
+                amount1.push(amount); 
+                document.getElementById("amount1Field").innerHTML = displayResult(amount1);
+                this.amount.value = '';
+                document.getElementById("total1").innerHTML = (calculateTotal(amount1)).toFixed(2);
+            }
+        }else if(x === 40){
+            if(amount == '')
+            {
+                return;
+            }else 
+            {
+                amount2.push(amount); 
+                document.getElementById("amount2Field").innerHTML = displayResult(amount2);
+                document.getElementById("total2").innerHTML = (calculateTotal(amount2)/2).toFixed(2);
+                this.amount.value = '';
+            }
+        }else if(x === 39){
+            if(amount == '')
+            {
+                return;
+            }else 
+            {
+                amount3.push(amount); 
+                document.getElementById("amount3Field").innerHTML = displayResult(amount3);
+                document.getElementById("total3").innerHTML = (calculateTotal(amount3)).toFixed(2);
+                this.amount.value = '';  
+            }
+        }else
+        {return;}
+        document.getElementById("amountOwe").innerHTML = (calculateTotal(amount2)/2 + calculateTotal(amount3)).toFixed(2);
+    }
+    
+    
+    function displayResult(array){
+        var item = '';
+        for(i=0;i<array.length;i++)
+            {
+                item += array[i] + "<br>"; 
+            }
+        return item;
+    }
+    
+    function calculateTotal(array){
+        var total = 0;
+        for(i=0;i<array.length;i++)
+            {
+                total += parseFloat(array[i]); 
+                
+            }
+        return total;
+    }
+    /*function assignName(value){
+        var name = this.value;
+        console.log(name);
+        document.getElementById("paidBy").innerHTML = name;
+    }*/
+        
+</script>
+
+</body>
+
+</html>
